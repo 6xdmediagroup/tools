@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEAMWONK Tools</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #1e3a8a, #60a5fa);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+        }
+        .tool-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-12">
+        <h1 class="text-4xl font-bold text-white text-center mb-12">TEAMWONK Tools</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <a href="BMCT.html" class="tool-card bg-white rounded-lg shadow-lg p-6 text-center">
+                <h2 class="text-xl font-semibold text-gray-800">Bulk Metric Checker</h2>
+                <p class="text-gray-600 mt-2">Analyze multiple website metrics efficiently.</p>
+            </a>
+            <a href="MergeCSV.html" class="tool-card bg-white rounded-lg shadow-lg p-6 text-center">
+                <h2 class="text-xl font-semibold text-gray-800">CSV Merger</h2>
+                <p class="text-gray-600 mt-2">Combine CSV files seamlessly.</p>
+            </a>
+            <a href="RESOURCE_PAGES.html" class="tool-card bg-white rounded-lg shadow-lg p-6 text-center">
+                <h2 class="text-xl font-semibold text-gray-800">Resource Page Finder</h2>
+                <p class="text-gray-600 mt-2">Discover valuable resource pages for your needs.</p>
+            </a>
+            <a href="backlinks.html" class="tool-card bg-white rounded-lg shadow-lg p-6 text-center">
+                <h2 class="text-xl font-semibold text-gray-800">Backlink Pages & Domains Tool</h2>
+                <p class="text-gray-600 mt-2">Identify and analyze backlink opportunities.</p>
+            </a>
+            <a href="dr.html" class="tool-card bg-white rounded-lg shadow-lg p-6 text-center">
+                <h2 class="text-xl font-semibold text-gray-800">Domain Rating</h2>
+                <p class="text-gray-600 mt-2">Check the authority of any domain.</p>
+            </a>
+            <a href="SKYSCRAPER.html" class="tool-card bg-white rounded-lg shadow-lg p-6 text-center">
+                <h2 class="text-xl font-semibold text-gray-800">Skyscraper</h2>
+                <p class="text-gray-600 mt-2">Enhance your content with the skyscraper technique.</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
