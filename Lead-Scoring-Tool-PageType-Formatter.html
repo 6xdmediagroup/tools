@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Scoring Tool - JSON config formatter tool v.2 by Ron Carandang</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        textarea, input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .output {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .copy-success {
+            color: green;
+            margin-top: 10px;
+            display: none;
+        }
+        .keyword-count {
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Lead Scoring Tool - JSON config formatter tool v.2 by Ron Carandang</h2>
+        
+        <label for="pageClassification">Page Classification:</label>
+        <input type="text" id="pageClassification" placeholder="Enter page classification...">
+
+        <label for="inputText">Input Keywords:</label>
+        <textarea id="inputText" placeholder="Enter your keywords, one per line..."></textarea>
+
+        <button id="runButton">Run</button>
+        <button id="copyButton">Copy</button>
+        <button id="downloadButton">Download .JSON File</button>
+        <span id="copySuccess" class="copy-success">Output copied to clipboard!</span>
+
+        <h3>Output:</h3>
+        <p id="keywordCount" class="keyword-count"></p>
+        <div id="outputText" class="output"></div>
+    </div>
+
+    <script>
+        let outputData = []; // Variable to hold the processed output
+
+        function processKeywords() {
+            const inputText = document.getElementById('inputText').value;
+            const pageClassification = document.getElementById('pageClassification').value.trim();
+            const outputText = document.getElementById('outputText');
+            const keywordCountElement = document.getElementById('keywordCount');
+
+            let keywords = inputText.split('\n').map(keyword => keyword.trim()).filter(keyword => keyword !== '');
+            let uniqueKeywords = Array.from(new Set(keywords)).sort();
+
+            outputData = uniqueKeywords.map(keyword => ({
+                "UrlSection": keyword,
+                "PageClassification": pageClassification || "Variable"
+            }));
+
+            outputText.textContent = JSON.stringify(outputData, null, 4);
+            keywordCountElement.textContent = `Total number of unique keywords: ${uniqueKeywords.length}`;
+        }
+
+        function copyToClipboard() {
+            const outputText = document.getElementById('outputText').textContent;
+            const textarea = document.createElement('textarea');
+            textarea.value = outputText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            document.getElementById('copySuccess').style.display = 'inline';
+            setTimeout(() => document.getElementById('copySuccess').style.display = 'none', 2000);
+        }
+
+        function downloadJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(outputData, null, 4));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "output.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            document.body.removeChild(downloadAnchor);
+        }
+
+        document.getElementById('runButton').addEventListener('click', processKeywords);
+        document.getElementById('copyButton').addEventListener('click', copyToClipboard);
+        document.getElementById('downloadButton').addEventListener('click', downloadJSON);
+    </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Scoring Tool - JSON config formatter tool v.1 by Ron Carandang</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .output {
+            margin-top: 20px;
+            white-space: pre-wrap; /* Preserves spaces and line breaks */
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .copy-success {
+            color: green;
+            margin-top: 10px;
+            display: none;
+        }
+        .keyword-count {
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Lead Scoring Tool - JSON config formatter tool v.1 by Ron Carandang</h2>
+
+        <label for="inputText">Input:</label>
+        <textarea id="inputText" placeholder="Enter your keywords, one per line..."></textarea>
+
+        <button id="runButton">Run</button>
+        <button id="copyButton">Copy</button>
+        <button id="downloadButton">Download .JSON File</button> <!-- New download button -->
+        <span id="copySuccess" class="copy-success">Output copied to clipboard!</span>
+
+        <h3>Output:</h3>
+        <p id="keywordCount" class="keyword-count"></p> <!-- Keyword count moved up -->
+
+        <div id="outputText" class="output"></div>
+    </div>
+
+    <script>
+        let outputData = {}; // Variable to hold the processed output
+
+        // Function to process the input and generate the output
+        function processKeywords() {
+            const inputText = document.getElementById('inputText').value;
+            const outputText = document.getElementById('outputText');
+            const keywordCountElement = document.getElementById('keywordCount');
+
+            // Split input into lines, remove empty entries, dedup, and sort alphabetically
+            let keywords = inputText.split('\n').map(keyword => keyword.trim()).filter(keyword => keyword !== '');
+            let uniqueKeywords = Array.from(new Set(keywords)).sort();
+
+            // Create the output JSON format
+            outputData = {
+                "Scoring": uniqueKeywords.map(keyword => ({
+                    "Keyword": keyword,
+                    "Score": 50
+                }))
+            };
+
+            // Convert the JSON object to a pretty-printed string
+            outputText.textContent = JSON.stringify(outputData, null, 4);
+
+            // Display the total count of unique keywords
+            keywordCountElement.textContent = `Total number of unique keywords: ${uniqueKeywords.length}`;
+        }
+
+        // Function to copy output to clipboard
+        function copyToClipboard() {
+            const outputText = document.getElementById('outputText').textContent;
+            const textarea = document.createElement('textarea');
+            textarea.value = outputText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            // Show success message
+            const copySuccess = document.getElementById('copySuccess');
+            copySuccess.style.display = 'inline';
+            setTimeout(() => copySuccess.style.display = 'none', 2000);
+        }
+
+        // Function to download output as a .json file
+        function downloadJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(outputData, null, 4));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "output.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            document.body.removeChild(downloadAnchor);
+        }
+
+        // Attach event listener to the "Run" button
+        document.getElementById('runButton').addEventListener('click', processKeywords);
+
+        // Attach event listener to the "Copy" button
+        document.getElementById('copyButton').addEventListener('click', copyToClipboard);
+
+        // Attach event listener to the "Download" button
+        document.getElementById('downloadButton').addEventListener('click', downloadJSON);
+    </script>
+</body>
+</html>
